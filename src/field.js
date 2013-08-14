@@ -49,7 +49,7 @@ Form.Field = Backbone.View.extend({
     schema = _.extend({
       type: 'Text',
       title: this.createTitle()
-    }, schema);
+    }, this.constructor.defaultSchema, schema);
 
     //Get the real constructor function i.e. if type is a string such as 'Text'
     schema.type = (_.isString(schema.type)) ? Form.editors[schema.type] : schema.type;
@@ -278,6 +278,10 @@ Form.Field = Backbone.View.extend({
   /**
    * CSS class name added to the field when there is a validation error
    */
-  errorClassName: 'error'
+  errorClassName: 'error',
 
+    /**
+     * Default Arguments for Schema
+     */
+    defaultSchema: {}
 });

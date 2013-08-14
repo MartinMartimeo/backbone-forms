@@ -6,12 +6,19 @@
 define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Backbone) {
   var Form = Backbone.Form;
 
+  /** 
+ * Include this template file after backbone-forms.amd.js to override the default templates
+ * 
+ * 'data-*' attributes control where elements are placed
+ */
+;(function(Form) {
+
   
   /**
    * Bootstrap templates for Backbone Forms
    */
   Form.template = _.template('\
-    <form class="form-horizontal" data-fieldsets></form>\
+    <form role="form" class="form-horizontal" data-fieldsets></form>\
   ');
 
 
@@ -25,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
 
 
   Form.Field.template = _.template('\
-    <div class="control-group field-<%= key %>">\
+    <div class="form-group field-<%= key %>">\
       <label class="control-label" for="<%= editorId %>"><%= title %></label>\
       <div class="controls">\
         <span data-editor></span>\
@@ -34,6 +41,10 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
       </div>\
     </div>\
   ');
+
+  Form.Field.defaultSchema = {
+      'editorClass': 'form-control'
+  };
 
 
   Form.NestedField.template = _.template('\
@@ -70,6 +81,9 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
     ');
 
   }
+
+
+})(Backbone.Form);
 
 
 });

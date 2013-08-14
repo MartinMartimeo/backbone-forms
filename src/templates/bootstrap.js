@@ -1,9 +1,16 @@
+/** 
+ * Include this template file after backbone-forms.amd.js to override the default templates
+ * 
+ * 'data-*' attributes control where elements are placed
+ */
+;(function(Form) {
 
+  
   /**
    * Bootstrap templates for Backbone Forms
    */
   Form.template = _.template('\
-    <form class="form-horizontal" data-fieldsets></form>\
+    <form role="form" class="form-horizontal" data-fieldsets></form>\
   ');
 
 
@@ -17,7 +24,7 @@
 
 
   Form.Field.template = _.template('\
-    <div class="control-group field-<%= key %>">\
+    <div class="form-group field-<%= key %>">\
       <label class="control-label" for="<%= editorId %>"><%= title %></label>\
       <div class="controls">\
         <span data-editor></span>\
@@ -26,6 +33,10 @@
       </div>\
     </div>\
   ');
+
+  Form.Field.defaultSchema = {
+      'editorClass': 'form-control'
+  };
 
 
   Form.NestedField.template = _.template('\
@@ -62,3 +73,6 @@
     ');
 
   }
+
+
+})(Backbone.Form);
