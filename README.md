@@ -88,6 +88,7 @@ $('body').append(form.el);
 
 ###Table of Contents:
 - [Installation](#installation)
+- [Differences to upstream](#changes)
 - [Usage](#usage)
 - [Backbone.Form](#form)
 - [Schema Definition](#schema-definition)
@@ -138,6 +139,21 @@ Note there is also a distribution file for RequireJS / AMD.
 [Back to top](#top)
 
 
+<a name="changes"/>
+##Differences to upstream
+
+This fork differs to the upstream in some ways:
+
+   -  The bootstrap template is adapted to v3
+   -  The editor component of field are constructed lazy.
+      This allows changes to the editor type as long field.editor was never accessed (f.e. called by render)
+   -  The Object Type uses an own template defintionen that uses as parent node a 'div' instead of 'form',
+      because html forbids form element in forms.
+   -  The .render() methods are only intended for usage once,
+      but they take care of not messing themself by removing the data-fields/data-editors/data-fieldsets attributes.
+      The data is still available via data('fields') / data('editors) / data('fieldsets') calls of course.
+
+[Back to top](#top)
 
 <a name="usage"/>
 ##Usage
