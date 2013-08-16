@@ -1906,6 +1906,9 @@ Form.editors.Object = Form.editors.Base.extend({
     //Check required options
     if (!this.form) throw 'Missing required option "form"';
     if (!this.schema.subSchema) throw new Error("Missing required 'schema.subSchema' option for Object editor");
+
+      //Override defaults
+      this.template = options.template || this.constructor.template || this.form.template || this.form.constructor.template;
   },
 
   render: function() {
@@ -1917,14 +1920,16 @@ Form.editors.Object = Form.editors.Base.extend({
       schema: this.schema.subSchema,
       data: this.value,
       idPrefix: this.id + '_',
-      Field: NestedForm.NestedField
+        Field: NestedForm.NestedField,
+        template: this.template
     });
 
     this._observeFormEvents();
+      this.nestedForm.render();
 
-    this.$el.html(this.nestedForm.render().el);
+      this.$el.html(this.nestedForm.el);
 
-    if (this.hasFocus) this.trigger('blur', this);
+      if (this.hasFocus) this.trigger('blur', this);
 
     return this;
   },

@@ -21,8 +21,11 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
     <form role="form" class="form-horizontal" data-fieldsets></form>\
   ');
 
+    Form.editors.Object.template = _.template('\
+    <div role="form" class="form-horizontal" data-fieldsets></div>\
+  ');
 
-  Form.Fieldset.template = _.template('\
+    Form.Fieldset.template = _.template('\
     <fieldset data-fields>\
       <% if (legend) { %>\
         <legend><%= legend %></legend>\
