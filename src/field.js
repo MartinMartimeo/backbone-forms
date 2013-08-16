@@ -168,11 +168,13 @@ Form.Field = Backbone.View.extend({
     //Render editor
     $field.find('[data-editor]').add($field).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-editor');
+          selection = $container.data('editor');
 
-      if (_.isUndefined(selection)) return;
+        if (_.isUndefined(selection)) return;
 
       $container.append(editor.render().el);
+
+        $container.removeAttr("data-editor");
     });
 
     this.setElement($field);

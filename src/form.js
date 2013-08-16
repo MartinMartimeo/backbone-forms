@@ -168,9 +168,9 @@ var Form = Backbone.View.extend({
     //Render standalone editors
     $form.find('[data-editors]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-editors');
+          selection = $container.data('editors');
 
-      if (_.isUndefined(selection)) return;
+        if (_.isUndefined(selection)) return;
 
       //Work out which fields to include
       var keys = (selection == '*')
@@ -183,14 +183,16 @@ var Form = Backbone.View.extend({
 
         $container.append(field.editor.render().el);
       });
+
+        $container.removeAttr("data-editors");
     });
 
     //Render standalone fields
     $form.find('[data-fields]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fields');
+          selection = $container.data('fields');
 
-      if (_.isUndefined(selection)) return;
+        if (_.isUndefined(selection)) return;
 
       //Work out which fields to include
       var keys = (selection == '*')
@@ -203,18 +205,22 @@ var Form = Backbone.View.extend({
 
         $container.append(field.render().el);
       });
+
+        $container.removeAttr("data-fields");
     });
 
     //Render fieldsets
     $form.find('[data-fieldsets]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fieldsets');
+          selection = $container.data('fieldsets');
 
-      if (_.isUndefined(selection)) return;
+        if (_.isUndefined(selection)) return;
 
       _.each(self.fieldsets, function(fieldset) {
         $container.append(fieldset.render().el);
       });
+
+        $container.removeAttr("data-fieldsets");
     });
 
     //Set the main element

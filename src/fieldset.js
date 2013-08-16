@@ -84,13 +84,15 @@ Form.Fieldset = Backbone.View.extend({
     //Render fields
     $fieldset.find('[data-fields]').add($fieldset).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fields');
+          selection = $container.data('fields');
 
-      if (_.isUndefined(selection)) return;
+        if (_.isUndefined(selection)) return;
 
       _.each(fields, function(field) {
         $container.append(field.render().el);
       });
+
+        $container.removeAttr("data-fields");
     });
 
     this.setElement($fieldset);
