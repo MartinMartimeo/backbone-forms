@@ -195,7 +195,7 @@ var Form = Backbone.View.extend({
     //Render standalone editors
     $form.find('[data-editors]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-editors');
+          selection = $container.data('editors');
 
       if (_.isUndefined(selection)) return;
 
@@ -210,12 +210,14 @@ var Form = Backbone.View.extend({
 
         $container.append(field.editor.render().el);
       });
+
+      $container.removeAttr("data-editors");
     });
 
     //Render standalone fields
     $form.find('[data-fields]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fields');
+          selection = $container.data('fields');
 
       if (_.isUndefined(selection)) return;
 
@@ -230,18 +232,22 @@ var Form = Backbone.View.extend({
 
         $container.append(field.render().el);
       });
+
+      $container.removeAttr("data-fields");
     });
 
     //Render fieldsets
     $form.find('[data-fieldsets]').add($form).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fieldsets');
+          selection = $container.data('fieldsets');
 
       if (_.isUndefined(selection)) return;
 
       _.each(self.fieldsets, function(fieldset) {
         $container.append(fieldset.render().el);
       });
+
+      $container.removeAttr("data-fieldsets");
     });
 
     //Set the main element
@@ -662,13 +668,15 @@ Form.Fieldset = Backbone.View.extend({
     //Render fields
     $fieldset.find('[data-fields]').add($fieldset).each(function(i, el) {
       var $container = $(el),
-          selection = $container.attr('data-fields');
+          selection = $container.data('fields');
 
       if (_.isUndefined(selection)) return;
 
       _.each(fields, function(field) {
         $container.append(field.render().el);
       });
+
+      $container.removeAttr("data-fields");
     });
 
     this.setElement($fieldset);
@@ -733,8 +741,21 @@ Form.Field = Backbone.View.extend({
     this.template = options.template || schema.template || this.constructor.template;
     this.errorClassName = options.errorClassName || this.constructor.errorClassName;
 
-    //Create editor
-    this.editor = this.createEditor();
+    //Lazy property editor
+    var field = this;
+    Object.defineProperty(this, "editor", {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+            var editor = field.createEditor();
+            Object.defineProperty(this, "editor", {
+                value: editor,
+                configurable: false,
+                writable: false
+            });
+            return editor;
+        }
+    });
   },
 
   /**
