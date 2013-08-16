@@ -18,7 +18,10 @@ Form.editors.NestedModel = Form.editors.Object.extend({
     //Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
     var NestedForm = this.form.constructor;
 
-    var data = this.value || {},
+      // Find the model in global namespace if instance of string
+      this.schema.model = (_.isString(this.schema.model)) ? window[this.schema.model] : this.schema.model;
+
+      var data = this.value || {},
         key = this.key,
         nestedModel = this.schema.model;
 

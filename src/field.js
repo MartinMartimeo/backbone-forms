@@ -87,6 +87,9 @@ Form.Field = Backbone.View.extend({
 
       //Get the real constructor function i.e. if type is a string such as 'Text'
       this.schema.type = (_.isString(this.schema.type)) ? Form.editors[this.schema.type] : this.schema.type;
+      if (!this.schema.type) {
+          throw "Required 'schema.type' is not usable";
+      }
 
       var constructorFn = this.schema.type;
       return new constructorFn(options);

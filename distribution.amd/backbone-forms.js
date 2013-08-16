@@ -788,6 +788,9 @@ Form.Field = Backbone.View.extend({
 
       //Get the real constructor function i.e. if type is a string such as 'Text'
       this.schema.type = (_.isString(this.schema.type)) ? Form.editors[this.schema.type] : this.schema.type;
+      if (!this.schema.type) {
+          throw "Required 'schema.type' is not usable";
+      }
 
       var constructorFn = this.schema.type;
       return new constructorFn(options);
@@ -1549,7 +1552,11 @@ Form.editors.Select = Form.editors.Base.extend({
   initialize: function(options) {
     Form.editors.Base.prototype.initialize.call(this, options);
 
-    if (!this.schema || !this.schema.options) throw "Missing required 'schema.options'";
+      if (this.schema.collection) {
+          this.schema.options = (_.isString(this.schema.collection) && window[this.schema.collection]) ? new window[this.schema.collection]() : this.schema.collection;
+      }
+
+      if (!this.schema || !this.schema.options) throw "Missing required 'schema.options'";
   },
 
   render: function() {
@@ -2007,7 +2014,10 @@ Form.editors.NestedModel = Form.editors.Object.extend({
     //Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
     var NestedForm = this.form.constructor;
 
-    var data = this.value || {},
+      // Find the model in global namespace if instance of string
+      this.schema.model = (_.isString(this.schema.model)) ? window[this.schema.model] : this.schema.model;
+
+      var data = this.value || {},
         key = this.key,
         nestedModel = this.schema.model;
 
