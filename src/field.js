@@ -31,8 +31,21 @@ Form.Field = Backbone.View.extend({
     this.template = options.template || schema.template || this.constructor.template;
     this.errorClassName = options.errorClassName || this.constructor.errorClassName;
 
-    //Create editor
-    this.editor = this.createEditor();
+      //Lazy property editor
+      var field = this;
+      Object.defineProperty(this, "editor", {
+          configurable: true,
+          enumerable: true,
+          get: function () {
+              var editor = field.createEditor();
+              Object.defineProperty(this, "editor", {
+                  value: editor,
+                  configurable: false,
+                  writable: false
+              });
+              return editor;
+          }
+      });
   },
 
   /**
