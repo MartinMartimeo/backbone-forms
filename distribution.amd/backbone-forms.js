@@ -126,11 +126,15 @@ var Form = Backbone.View.extend({
       options.value = null;
     }
 
-    var field = new this.Field(options);
+      var form = this;
+      var field = new this.Field(options);
 
-    this.listenTo(field.editor, 'all', this.handleEditorEvent);
+      form.listenTo(field, 'lazy_create:editor', function () {
+          form.listenTo(field.editor, 'all', form.handleEditorEvent);
+      });
 
-    return field;
+
+      return field;
   },
 
   /**
@@ -741,6 +745,7 @@ Form.Field = Backbone.View.extend({
                       configurable: false,
                       writable: false
                   });
+                  field.trigger('lazy_create:editor');
                   return editor;
               }
           });
@@ -766,9 +771,6 @@ Form.Field = Backbone.View.extend({
       title: this.createTitle()
     }, this.constructor.defaultSchema, schema);
 
-    //Get the real constructor function i.e. if type is a string such as 'Text'
-    schema.type = (_.isString(schema.type)) ? Form.editors[schema.type] : schema.type;
-
     return schema;
   },
 
@@ -784,9 +786,11 @@ Form.Field = Backbone.View.extend({
       { id: this.createEditorId() }
     );
 
-    var constructorFn = this.schema.type;
+      //Get the real constructor function i.e. if type is a string such as 'Text'
+      this.schema.type = (_.isString(this.schema.type)) ? Form.editors[this.schema.type] : this.schema.type;
 
-    return new constructorFn(options);
+      var constructorFn = this.schema.type;
+      return new constructorFn(options);
   },
 
   /**

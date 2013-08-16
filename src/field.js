@@ -44,6 +44,7 @@ Form.Field = Backbone.View.extend({
                       configurable: false,
                       writable: false
                   });
+                  field.trigger('lazy_create:editor');
                   return editor;
               }
           });
@@ -69,9 +70,6 @@ Form.Field = Backbone.View.extend({
       title: this.createTitle()
     }, this.constructor.defaultSchema, schema);
 
-    //Get the real constructor function i.e. if type is a string such as 'Text'
-    schema.type = (_.isString(schema.type)) ? Form.editors[schema.type] : schema.type;
-
     return schema;
   },
 
@@ -87,9 +85,11 @@ Form.Field = Backbone.View.extend({
       { id: this.createEditorId() }
     );
 
-    var constructorFn = this.schema.type;
+      //Get the real constructor function i.e. if type is a string such as 'Text'
+      this.schema.type = (_.isString(this.schema.type)) ? Form.editors[this.schema.type] : this.schema.type;
 
-    return new constructorFn(options);
+      var constructorFn = this.schema.type;
+      return new constructorFn(options);
   },
 
   /**

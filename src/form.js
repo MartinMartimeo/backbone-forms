@@ -112,11 +112,15 @@ var Form = Backbone.View.extend({
       options.value = null;
     }
 
-    var field = new this.Field(options);
+      var form = this;
+      var field = new this.Field(options);
 
-    this.listenTo(field.editor, 'all', this.handleEditorEvent);
+      form.listenTo(field, 'lazy_create:editor', function () {
+          form.listenTo(field.editor, 'all', form.handleEditorEvent);
+      });
 
-    return field;
+
+      return field;
   },
 
   /**
