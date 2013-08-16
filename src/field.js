@@ -33,19 +33,24 @@ Form.Field = Backbone.View.extend({
 
       //Lazy property editor
       var field = this;
-      Object.defineProperty(this, "editor", {
-          configurable: true,
-          enumerable: true,
-          get: function () {
-              var editor = field.createEditor();
-              Object.defineProperty(this, "editor", {
-                  value: editor,
-                  configurable: false,
-                  writable: false
-              });
-              return editor;
-          }
-      });
+      try {
+          Object.defineProperty(this, "editor", {
+              configurable: true,
+              enumerable: true,
+              get: function () {
+                  var editor = field.createEditor();
+                  Object.defineProperty(this, "editor", {
+                      value: editor,
+                      configurable: false,
+                      writable: false
+                  });
+                  return editor;
+              }
+          });
+          // Legacy Browser Fallback
+      } catch (e) {
+          field.editor = field.createEditor();
+      }
   },
 
   /**
