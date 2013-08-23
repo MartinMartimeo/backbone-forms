@@ -126,7 +126,7 @@ Form.editors.Select = Form.editors.Base.extend({
   },
 
   getValue: function() {
-    return this.$el.val();
+      return this.$el.find(":selected").data("value") || this.$el.val();
   },
 
   setValue: function(value) {
@@ -148,17 +148,17 @@ Form.editors.Select = Form.editors.Base.extend({
   /**
    * Transforms a collection into HTML ready to use in the renderOptions method
    * @param {Backbone.Collection}
-   * @return {String}
+   * @return {Array}
    */
   _collectionToHtml: function(collection) {
-    //Convert collection to array first
-    var array = [];
-    collection.each(function(model) {
-      array.push({ val: model.id, label: model.toString() });
-    });
+      var html = [];
 
-    //Now convert to HTML
-    var html = this._arrayToHtml(array);
+      //Generate HTML
+      collection.each(function(model) {
+          var $option = $('<option value="' + model.id + '">' + model.toString() + '</option>');
+          $option.data("value", model);
+          html.push($option);
+      });
 
     return html;
   },
