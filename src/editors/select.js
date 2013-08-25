@@ -125,9 +125,13 @@ Form.editors.Select = Form.editors.Base.extend({
     return html;
   },
 
-  getValue: function() {
-      return this.$el.find(":selected").data("value") || this.$el.val();
-  },
+    /**
+     *
+     * @param [as_model] get value as model if init as collection
+     */
+    getValue: function (as_model) {
+        return (as_model && this.$el.find(":selected").data("value")) || this.$el.val();
+    },
 
   setValue: function(value) {
     this.$el.val(value);
