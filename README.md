@@ -290,8 +290,10 @@ If a form has a model attached to it, the initial values are taken from the mode
 
   Events fired by editors within this form will bubble up and be fired as `<key>:<event>`.
 
-        form.on('title:change', function(form, titleEditor) {
+        form.on('title:change', function(form, titleEditor, extra) {
             console.log('Title changed to "' + titleEditor.getValue() + '".');
+            // where extra is an array of extra arguments that
+            // a custom editor might need
         });
 
 [Back to top](#top)
@@ -409,6 +411,7 @@ Creates and populates a `<select>` element.
     - Array of objects in the form `{ val: 123, label: 'Text' }`
     - A Backbone collection
     - A function that calls back with one of the above
+    - An object e.g. `{ y: 'Yes', n: 'No' }`
 
   **Backbone collection notes**
 
@@ -954,6 +957,11 @@ var CustomEditor = Backbone.Form.editors.Base.extend({
 ##Changelog
 
 ###master
+- Allow for setting defaults on the prototype (patbenatar)
+- Make it possible to trigger editor events with custom arguments (mvergerdelbove)
+- Give checkboxes unique IDs in groups (exussum12)
+- Allow passing an object to Select (lintaba)
+- Add checkbox array grouping (exussum12)
 - Fix checkboxes and radio 'name' attributes (#95)
 - Allow field template to be defined in schema
 - Fix overriding List modal templates in Bootstrap template pack
