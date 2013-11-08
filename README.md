@@ -116,7 +116,7 @@ $('body').append(form.el);
 ##Installation
 
 Dependencies:
-- [Backbone 1.0](http://documentcloud.github.com/backbone/)
+- [Backbone 1.0+](http://documentcloud.github.com/backbone/)
 
 
 Include backbone-forms.js:
@@ -956,7 +956,9 @@ var CustomEditor = Backbone.Form.editors.Base.extend({
 <a name="changelog"/>
 ##Changelog
 
-###master
+###0.13.0
+- Confirming compatibility with Backbone 1.1.0 (still supporting 1.0.0)
+- Fix form.commit() to only run model-level validation if {validate:true} passed (cmaher)
 - Allow for setting defaults on the prototype (patbenatar)
 - Make it possible to trigger editor events with custom arguments (mvergerdelbove)
 - Give checkboxes unique IDs in groups (exussum12)
