@@ -189,7 +189,7 @@ Form.Editor = Form.editors.Base = Backbone.View.extend({
       return validators[config.type](config);
     }
     
-    //Unkown validator type
+    //Unknown validator type
     throw new Error('Invalid validator: ' + validator);
   }
 });
