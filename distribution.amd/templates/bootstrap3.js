@@ -1,16 +1,17 @@
 /** 
  * Include this template file after backbone-forms.amd.js to override the default templates
- * 
+ *
  * 'data-*' attributes control where elements are placed
  */
-;(function(Form) {
+define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Backbone) {
+  var Form = Backbone.Form;
 
   
   /**
-   * Bootstrap 2 templates
+   * Bootstrap 3 templates
    */
   Form.template = _.template('\
-    <form class="form-horizontal" data-fieldsets></form>\
+    <form class="form-horizontal" role="form" data-fieldsets></form>\
   ');
 
 
@@ -24,12 +25,12 @@
 
 
   Form.Field.template = _.template('\
-    <div class="control-group field-<%= key %>">\
-      <label class="control-label" for="<%= editorId %>"><%= title %></label>\
-      <div class="controls">\
+    <div class="form-group field-<%= key %>">\
+      <label class="col-sm-2 control-label" for="<%= editorId %>"><%= title %></label>\
+      <div class="col-sm-10">\
         <span data-editor></span>\
-        <div class="help-inline" data-error></div>\
-        <div class="help-block"><%= help %></div>\
+        <p class="help-block" data-error></p>\
+        <p class="help-block"><%= help %></p>\
       </div>\
     </div>\
   ');
@@ -44,6 +45,9 @@
       <div class="help-block"><%= help %></div>\
     </div>\
   ');
+
+  Form.editors.Base.prototype.className = 'form-control';
+  Form.Field.errorClassName = 'has-error';
 
 
   if (Form.editors.List) {
@@ -71,4 +75,4 @@
   }
 
 
-})(Backbone.Form);
+});

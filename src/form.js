@@ -43,7 +43,7 @@ var Form = Backbone.View.extend({
     })();
 
     //Store important data
-    _.extend(this, _.pick(options, 'model', 'data', 'idPrefix'));
+    _.extend(this, _.pick(options, 'model', 'data', 'idPrefix', 'templateData'));
 
     //Override defaults
     var constructor = this.constructor;
@@ -376,7 +376,7 @@ var Form = Backbone.View.extend({
    */
   getEditor: function(key) {
     var field = this.fields[key];
-    if (!field) throw 'Field not found: '+key;
+    if (!field) throw new Error('Field not found: '+key);
 
     return field.editor;
   },

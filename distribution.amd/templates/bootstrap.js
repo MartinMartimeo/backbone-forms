@@ -6,26 +6,16 @@
 define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Backbone) {
   var Form = Backbone.Form;
 
-  /** 
- * Include this template file after backbone-forms.amd.js to override the default templates
- * 
- * 'data-*' attributes control where elements are placed
- */
-;(function(Form) {
-
   
   /**
-   * Bootstrap templates for Backbone Forms
+   * Bootstrap 2 templates
    */
   Form.template = _.template('\
-    <form role="form" class="form-horizontal" data-fieldsets></form>\
+    <form class="form-horizontal" data-fieldsets></form>\
   ');
 
-    Form.editors.Object.template = _.template('\
-    <div role="form" class="form-horizontal" data-fieldsets></div>\
-  ');
 
-    Form.Fieldset.template = _.template('\
+  Form.Fieldset.template = _.template('\
     <fieldset data-fields>\
       <% if (legend) { %>\
         <legend><%= legend %></legend>\
@@ -35,7 +25,7 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
 
 
   Form.Field.template = _.template('\
-    <div class="form-group field-<%= key %>">\
+    <div class="control-group field-<%= key %>">\
       <label class="control-label" for="<%= editorId %>"><%= title %></label>\
       <div class="controls">\
         <span data-editor></span>\
@@ -44,10 +34,6 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
       </div>\
     </div>\
   ');
-
-  Form.Field.defaultSchema = {
-      'editorClass': 'form-control'
-  };
 
 
   Form.NestedField.template = _.template('\
@@ -84,9 +70,6 @@ define(['jquery', 'underscore', 'backbone', 'backbone-forms'], function($, _, Ba
     ');
 
   }
-
-
-})(Backbone.Form);
 
 
 });

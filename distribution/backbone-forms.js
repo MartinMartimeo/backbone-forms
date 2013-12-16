@@ -1,5 +1,5 @@
 /**
- * Backbone Forms v0.13.0
+ * Backbone Forms v0.14.0
  *
  * Copyright (c) 2013 Charles Davison, Pow Media Ltd
  *
@@ -70,7 +70,7 @@ var Form = Backbone.View.extend({
     })();
 
     //Store important data
-    _.extend(this, _.pick(options, 'model', 'data', 'idPrefix'));
+    _.extend(this, _.pick(options, 'model', 'data', 'idPrefix', 'templateData'));
 
     //Override defaults
     var constructor = this.constructor;
@@ -403,7 +403,7 @@ var Form = Backbone.View.extend({
    */
   getEditor: function(key) {
     var field = this.fields[key];
-    if (!field) throw 'Field not found: '+key;
+    if (!field) throw new Error('Field not found: '+key);
 
     return field.editor;
   },
@@ -541,6 +541,9 @@ Form.validators = (function() {
       
       //Don't check empty values (add a 'required' validator for this)
       if (value === null || value === undefined || value === '') return;
+
+      //Create RegExp from string if it's valid
+      if ('string' === typeof options.regexp) options.regexp = new RegExp(options.regexp, options.flags);
 
       if (!options.regexp.test(value)) return err;
     };
@@ -1073,7 +1076,7 @@ Form.Editor = Form.editors.Base = Backbone.View.extend({
 
     //Set initial value
     if (options.model) {
-      if (!options.key) throw "Missing option: 'key'";
+      if (!options.key) throw new Error("Missing option: 'key'");
 
       this.model = options.model;
 
@@ -1138,7 +1141,7 @@ Form.Editor = Form.editors.Base = Backbone.View.extend({
    * Extend and override this method
    */
   focus: function() {
-    throw 'Not implemented';
+    throw new Error('Not implemented');
   },
   
   /**
@@ -1146,7 +1149,7 @@ Form.Editor = Form.editors.Base = Backbone.View.extend({
    * Extend and override this method
    */
   blur: function() {
-    throw 'Not implemented';
+    throw new Error('Not implemented');
   },
 
   /**
@@ -1241,7 +1244,7 @@ Form.Editor = Form.editors.Base = Backbone.View.extend({
       return validators[config.type](config);
     }
     
-    //Unkown validator type
+    //Unknown validator type
     throw new Error('Invalid validator: ' + validator);
   }
 });
@@ -1984,7 +1987,7 @@ Form.editors.Object = Form.editors.Base.extend({
     Form.editors.Base.prototype.initialize.call(this, options);
 
     //Check required options
-    if (!this.form) throw 'Missing required option "form"';
+    if (!this.form) throw new Error('Missing required option "form"');
     if (!this.schema.subSchema) throw new Error("Missing required 'schema.subSchema' option for Object editor");
 
       //Override defaults
@@ -2075,8 +2078,8 @@ Form.editors.NestedModel = Form.editors.Object.extend({
   initialize: function(options) {
     Form.editors.Base.prototype.initialize.call(this, options);
 
-    if (!this.form) throw 'Missing required option "form"';
-    if (!options.schema.model) throw 'Missing required "schema.model" option for NestedModel editor';
+    if (!this.form) throw new Error('Missing required option "form"');
+    if (!options.schema.model) throw new Error('Missing required "schema.model" option for NestedModel editor');
   },
 
   render: function() {
@@ -2492,7 +2495,7 @@ Form.editors.DateTime = Form.editors.Base.extend({
 
 
   //Metadata
-  Form.VERSION = '0.13.0';
+  Form.VERSION = '0.14.0';
 
 
   //Exports

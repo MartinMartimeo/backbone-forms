@@ -1,6 +1,6 @@
 #backbone-forms
 
-A flexible, customisable form framework for Backbone.JS applications.
+A flexible, customisable form framework for Backbone.js applications.
 
 - Simple schema definition to auto-generate forms
 - Validation
@@ -779,7 +779,7 @@ To customise forms even further you can pass in a template to the form instance 
 ```
 <script id="formTemplate" type="text/html">
     <form>
-        <h1>Edit profile</h1>
+        <h1><%= heading1 %></h1>
         
         <h2>Name</h2>
         <div data-editors="firstName"><!-- firstName editor will be added here --></div>
@@ -797,7 +797,8 @@ To customise forms even further you can pass in a template to the form instance 
 ```js
 var form = new Backbone.Form({
     template: _.template($('#formTpl').html()),
-    model: new UserModel() //defined elsewhere
+    model: new UserModel(), //defined elsewhere
+    templateData: {heading1: 'Edit profile'}
 });
 ```
 
@@ -955,6 +956,14 @@ var CustomEditor = Backbone.Form.editors.Base.extend({
 
 <a name="changelog"/>
 ##Changelog
+
+###master
+- Support regexp validator as string (gregsabia)
+
+###0.14.0
+- Add Bootstrap 3 templates (powmedia)
+- Being consistent with throwing `Error`s rather than strings (philfreo)
+- Save templateData when passed as an option (BradDenver)
 
 ###0.13.0
 - Confirming compatibility with Backbone 1.1.0 (still supporting 1.0.0)
