@@ -78,7 +78,6 @@ $('body').append(form.el);
 
 ###Live editable demos
 - [User form](http://jsfiddle.net/evilcelery/dW2Qu/)
-- [Form with Bootstrap templates and an Object list](http://jsfiddle.net/evilcelery/4XZMb/)
 - [Update form elements based on user input](http://jsfiddle.net/evilcelery/c5QHr/)
 
 
@@ -295,6 +294,10 @@ If a form has a model attached to it, the initial values are taken from the mode
             // where extra is an array of extra arguments that
             // a custom editor might need
         });
+
+- **`submit`**
+
+  Fired when the form is submitted. The native Event is passed as an argument, so you can do event.preventDefault() to stop the form from submitting.
 
 [Back to top](#top)
 
@@ -649,10 +652,11 @@ Validators can be defined in several ways:
 ###Built-in validators
 
 - **required**: Checks the field has been filled in
+- **number**: Checks it is a number, allowing a decimal point
 - **email**: Checks it is a valid email address
 - **url**: Checks it is a valid URL
 - **match**: Checks that the field matches another. The other field name must be set in the `field` option.
-- **regexp**: Runs a regular expression. Requires the `regexp` option, which takes a compiled regular expression.
+- **regexp**: Runs a regular expression. Requires the `regexp` option, which takes a compiled regular expression. Setting the `match` option to `false` ensures that the regexp does NOT pass.
 
 ####Examples
 
@@ -741,7 +745,7 @@ If you model provides a `validate` method, then this will be called when you cal
 ```js
 //Schema definition:
 var schema = {
-    name: { validators: ['required']
+    name: { validators: ['required'] }
 }
 
 var errors = form.commit();
@@ -958,7 +962,12 @@ var CustomEditor = Backbone.Form.editors.Base.extend({
 ##Changelog
 
 ###master
+- Added the `number` validator
+- Support specifying fieldsets on the Form prototype
+- Support specifying field and fieldset templates in their prototypes; allows extending Form, Field and Fieldset to create custom forms
 - Support regexp validator as string (gregsabia)
+- Fix bootstrap3 class list name #329
+- Add 'match' option to regexp validator
 
 ###0.14.0
 - Add Bootstrap 3 templates (powmedia)
